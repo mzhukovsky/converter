@@ -2,13 +2,13 @@ package com.mzukowski.tests;
 
 import org.junit.Test;
 
-import com.mzukowski.util.Converter;
+import com.mzukowski.util.TemperatureConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ConverterTest {
+public class TemperatureConverterTest {
 
-	Converter conv = new Converter();
+	TemperatureConverter conv = new TemperatureConverter();
 	
 	@Test
 	public void converterShouldReturn32F(){
@@ -16,7 +16,7 @@ public class ConverterTest {
 		double celsius = 0;
 		
 		//expect
-		assertThat(conv.convCelsiusToFahrenheit(celsius)).isEqualTo(32);
+		assertThat(conv.convertCelsiusToFahrenheit(celsius)).isEqualTo(32);
 	}
 	
 	@Test
@@ -25,6 +25,6 @@ public class ConverterTest {
 		double fahrenheit = 212;
 		
 		//expect
-		assertThat(conv.convFahrenheitToCelsius(fahrenheit)).isEqualTo(100);
+		assertThat(conv.convertFahrenheitToCelsius(fahrenheit)).isEqualTo(100);
 	}
 }
