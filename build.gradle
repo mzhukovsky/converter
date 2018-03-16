@@ -11,7 +11,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
@@ -21,15 +20,14 @@ sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
-    jcenter()
+	jcenter()
 }
 
-
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-actuator')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '1.5.10.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.10.RELEASE'
+	compileOnly group: 'org.projectlombok', name:'lombok', version:'1.16.20'
+	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.10.RELEASE'
 	testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
-    compileOnly('org.projectlombok:lombok:1.16.20')
+	testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
 }

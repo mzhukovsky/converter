@@ -11,7 +11,7 @@ public class TemperatureConverterTest {
 	TemperatureConverter conv = new TemperatureConverter();
 	
 	@Test
-	public void converterShouldReturn32F(){
+	public void afterConverted0CelsiusItsShouldBe32Fahrenheit(){
 		//given
 		double celsius = 0;
 		
@@ -20,7 +20,7 @@ public class TemperatureConverterTest {
 	}
 	
 	@Test
-	public void converterShouldReturn100C(){
+	public void afterConverted212FahrenheitShouldBe100Celsius(){
 		//given
 		double fahrenheit = 212;
 		
