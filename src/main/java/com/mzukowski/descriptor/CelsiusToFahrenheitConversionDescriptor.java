@@ -1,13 +1,13 @@
 package com.mzukowski.descriptor;
 
-
 import com.mzukowski.units.TemperatureUnits;
 import com.mzukowski.util.TemperatureConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.mzukowski.units.TemperatureUnits.CELSIUS;
+import static com.mzukowski.units.TemperatureUnits.FAHRENHEIT;
 import static lombok.AccessLevel.PRIVATE;
 
 @Service
@@ -15,7 +15,6 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 public class CelsiusToFahrenheitConversionDescriptor implements TemperatureConversionDescriptor {
 
-    @Autowired
     TemperatureConverter converter;
 
     @Override
@@ -25,8 +24,6 @@ public class CelsiusToFahrenheitConversionDescriptor implements TemperatureConve
 
     @Override
     public boolean matches(TemperatureUnits sourceUnit, TemperatureUnits targetUnit) {
-        if (sourceUnit.equals(TemperatureUnits.CELSIUS) && targetUnit.equals(TemperatureUnits.FAHRENHEIT))
-            return true;
-        return false;
+        return sourceUnit == CELSIUS && targetUnit == FAHRENHEIT;
     }
 }

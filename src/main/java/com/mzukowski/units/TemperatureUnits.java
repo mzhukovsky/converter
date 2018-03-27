@@ -13,13 +13,14 @@ public enum TemperatureUnits {
         this.unit = unit;
     }
 
-    public static TemperatureUnits getUnit(String unit){
+    public static TemperatureUnits getUnit(String unit) {
         return Arrays.stream(values())
-                .filter(temperatureUnits -> temperatureUnits.unit.equalsIgnoreCase(unit))
+                .filter(temperatureUnits -> temperatureUnits.isUnit(unit))
                 .findAny()
-                .orElseThrow(()-> new IllegalStateException("Unit not found"));
+                .orElseThrow(() -> new IllegalStateException("Unit not found"));
+    }
+
+    public boolean isUnit(String unitToVerify) {
+        return unit.equalsIgnoreCase(unitToVerify);
     }
 }
-
-
-

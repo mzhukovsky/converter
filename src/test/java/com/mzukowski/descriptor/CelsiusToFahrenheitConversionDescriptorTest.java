@@ -2,53 +2,67 @@ package com.mzukowski.descriptor;
 
 import com.mzukowski.units.TemperatureUnits;
 import com.mzukowski.util.TemperatureConverter;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
-import static org.mockito.MockitoAnnotations.initMocks;
+import java.util.Collection;
+
+import static com.mzukowski.units.TemperatureUnits.CELSIUS;
+import static com.mzukowski.units.TemperatureUnits.FAHRENHEIT;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(Parameterized.class)
 public class CelsiusToFahrenheitConversionDescriptorTest {
 
-    @Autowired
-    CelsiusToFahrenheitConversionDescriptor celsiusToFahrenheitConversionDescriptor;
+    TemperatureConverter converter = mock(TemperatureConverter.class);
 
-    @Mock
-    TemperatureConverter converter;
+    CelsiusToFahrenheitConversionDescriptor celsiusToFahrenheitConversionDescriptor =
+            new CelsiusToFahrenheitConversionDescriptor(converter);
 
-    @Before
-    public void setUp() {
-        initMocks(this);
-        celsiusToFahrenheitConversionDescriptor = new CelsiusToFahrenheitConversionDescriptor(converter);
+    private boolean expectedResult;
+
+    private TemperatureUnits sourceUnit;
+
+    private TemperatureUnits targetUnit;
+
+    public CelsiusToFahrenheitConversionDescriptorTest(boolean expectedResult,
+                                                       TemperatureUnits sourceUnit,
+                                                       TemperatureUnits targetUnit) {
+        this.expectedResult = expectedResult;
+        this.sourceUnit = sourceUnit;
+        this.targetUnit = targetUnit;
+    }
+
+    @Parameters
+    public static Collection<Object[]> testData() {
+        Object[][] data = new Object[][]{
+                {true, CELSIUS, FAHRENHEIT},
+                {false, FAHRENHEIT, CELSIUS}
+        };
+        return asList(data);
+    }
+
+    @Test
+    public void expectMatchingResultThisIsItOfSourceUnitAndTargetUnit() {
+        //expect
+        assertThat(celsiusToFahrenheitConversionDescriptor.matches(sourceUnit, targetUnit))
+                .isEqualTo(expectedResult);
     }
 
     @Test
     public void descriptorShouldReturn32F() {
         // given
-        double temperatureCelcius = 0.0;
-        Mockito.when(converter.convertCelsiusToFahrenheit(Matchers.eq(temperatureCelcius))).thenReturn(32.0);
+        double temperatureCelsius = 0.0;
+        when(converter.convertCelsiusToFahrenheit(eq(temperatureCelsius))).thenReturn(32.0);
 
         //expect
-        assertThat(celsiusToFahrenheitConversionDescriptor.describeConverted(temperatureCelcius))
-                .isEqualTo(temperatureCelcius + " st. C to jest 32.0 st. F");
-    }
-
-    @Test
-    public void matchesShouldReturnTrue() {
-        // given
-        TemperatureUnits sourceUnit = TemperatureUnits.CELSIUS;
-        TemperatureUnits targetUnit = TemperatureUnits.FAHRENHEIT;
-
-        //expect
-        assertThat(celsiusToFahrenheitConversionDescriptor.matches(sourceUnit, targetUnit))
-                .isEqualTo(true);
+        assertThat(celsiusToFahrenheitConversionDescriptor.describeConverted(temperatureCelsius))
+                .isEqualTo(temperatureCelsius + " st. C to jest 32.0 st. F");
     }
 }

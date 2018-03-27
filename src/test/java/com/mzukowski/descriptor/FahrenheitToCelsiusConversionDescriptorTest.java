@@ -2,28 +2,57 @@ package com.mzukowski.descriptor;
 
 import com.mzukowski.units.TemperatureUnits;
 import com.mzukowski.util.TemperatureConverter;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
+import java.util.Collection;
+
+import static com.mzukowski.units.TemperatureUnits.CELSIUS;
+import static com.mzukowski.units.TemperatureUnits.FAHRENHEIT;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
 
+@RunWith(Parameterized.class)
 public class FahrenheitToCelsiusConversionDescriptorTest {
 
-    @Autowired
-    FahrenheitToCelsiusConversionDescriptor fahrenheitToCelsiusConversionDescriptor;
+    TemperatureConverter converter = mock(TemperatureConverter.class);
 
-    @Mock
-    TemperatureConverter converter;
+    FahrenheitToCelsiusConversionDescriptor fahrenheitToCelsiusConversionDescriptor =
+            new FahrenheitToCelsiusConversionDescriptor(converter);
 
-    @Before
-    public void setUp() {
-        initMocks(this);
-        fahrenheitToCelsiusConversionDescriptor = new FahrenheitToCelsiusConversionDescriptor(converter);
+    private boolean expectedResult;
+
+    private TemperatureUnits sourceUnit;
+
+    private TemperatureUnits targetUnit;
+
+    public FahrenheitToCelsiusConversionDescriptorTest(boolean expectedResult,
+                                                       TemperatureUnits sourceUnit,
+                                                       TemperatureUnits targetUnit) {
+        this.expectedResult = expectedResult;
+        this.sourceUnit = sourceUnit;
+        this.targetUnit = targetUnit;
+    }
+
+    @Parameters
+    public static Collection<Object[]> testData() {
+        Object[][] data1 = new Object[][]{
+                {true, FAHRENHEIT, CELSIUS},
+                {false, CELSIUS, FAHRENHEIT}
+        };
+        return asList(data1);
+    }
+
+    @Test
+    public void expectMatchingResultThisIsItOfSourceUnitAndTargetUnit() {
+        //expect
+        assertThat(fahrenheitToCelsiusConversionDescriptor.matches(sourceUnit, targetUnit))
+                .isEqualTo(expectedResult);
     }
 
     @Test
@@ -35,17 +64,5 @@ public class FahrenheitToCelsiusConversionDescriptorTest {
         //expect
         assertThat(fahrenheitToCelsiusConversionDescriptor.describeConverted(temperatureFahrenheit))
                 .isEqualTo(temperatureFahrenheit + " st. F to jest 100.0 st. C");
-    }
-
-    @Test
-    // czy to powinno być testowane w TemperatureConversionDescriptorFactory ? Czy testować też matchesShouldReturnFalse ?
-    public void matchesShouldReturnTrue() {
-        // given
-        TemperatureUnits sourceUnit = TemperatureUnits.FAHRENHEIT;
-        TemperatureUnits targetUnit = TemperatureUnits.CELSIUS;
-
-        //expect
-        assertThat(fahrenheitToCelsiusConversionDescriptor.matches(sourceUnit, targetUnit))
-                .isEqualTo(true);
     }
 }
