@@ -26,13 +26,4 @@ public class TemperatureUnitsTest_getUnit {
         //expect
         assertThat(getUnit(unit)).isEqualTo(FAHRENHEIT);
     }
-
-    @Test
-    public void forGivenUnitShouldBeCelsius() {
-        //given
-        String unit = "celsius";
-
-        //expect
-        assertThat(getUnit(unit)).isEqualTo(CELSIUS);
-    }
 }

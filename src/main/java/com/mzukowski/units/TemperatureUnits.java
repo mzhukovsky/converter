@@ -1,20 +1,24 @@
 package com.mzukowski.units;
 
-import java.util.Arrays;
+import lombok.experimental.FieldDefaults;
 
+import static java.util.Arrays.stream;
+import static lombok.AccessLevel.PRIVATE;
+
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public enum TemperatureUnits {
 
     FAHRENHEIT("fahrenheit"),
     CELSIUS("celsius");
 
-    private final String unit;
+    String unit;
 
     TemperatureUnits(String unit) {
         this.unit = unit;
     }
 
     public static TemperatureUnits getUnit(String unit) {
-        return Arrays.stream(values())
+        return stream(values())
                 .filter(temperatureUnits -> temperatureUnits.isUnit(unit))
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("Unit not found"));

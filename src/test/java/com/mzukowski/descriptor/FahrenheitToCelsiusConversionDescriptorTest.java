@@ -41,11 +41,10 @@ public class FahrenheitToCelsiusConversionDescriptorTest {
 
     @Parameters
     public static Collection<Object[]> testData() {
-        Object[][] data1 = new Object[][]{
+        return asList(new Object[][]{
                 {true, FAHRENHEIT, CELSIUS},
                 {false, CELSIUS, FAHRENHEIT}
-        };
-        return asList(data1);
+        });
     }
 
     @Test

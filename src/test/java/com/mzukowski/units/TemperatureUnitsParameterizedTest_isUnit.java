@@ -31,13 +31,12 @@ public class TemperatureUnitsParameterizedTest_isUnit {
 
     @Parameters
     public static Collection<Object[]> testData() {
-        Object[][] data = new Object[][]{
+        return asList(new Object[][]{
                 {true, FAHRENHEIT, "fahrenheit"},
                 {true, CELSIUS, "celsius"},
                 {false, FAHRENHEIT, "celsius"},
                 {false, CELSIUS, "fahrenheit"}
-        };
-        return asList(data);
+        });
     }
 
     @Test

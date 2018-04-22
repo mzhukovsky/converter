@@ -22,6 +22,6 @@ public class TemperatureConversionDescriptorProvider {
                 .stream()
                 .filter(temperatureConversionDescriptor -> temperatureConversionDescriptor.matches(sourceUnit, targetUnit))
                 .findAny()
-                .orElseThrow(() -> new IllegalStateException());
+                .orElseThrow(() -> new IllegalStateException("Descriptor not found for source unit "+sourceUnit +" and destination unit "+targetUnit));
     }
 }
